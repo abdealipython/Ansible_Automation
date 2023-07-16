@@ -1,0 +1,5 @@
+# NTP Servers
+{% for server in ntp_servers_list %}
+server {{ server }} iburst
+{% endfor %}
+

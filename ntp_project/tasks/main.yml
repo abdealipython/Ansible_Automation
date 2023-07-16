@@ -1,0 +1,32 @@
+---
+- name: ######Checking OS and proceed for Ubuntu########
+  block:
+    - name: ________Install ntp package on Ubuntu_________
+      apt:
+        name: ntp
+        state: latest
+      become: true
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Copy ntp.conf template
+      template:
+        src: ntp.conf.j2
+        dest: /etc/ntp.conf
+      become: true
+
+    - name: _____NTP service is enabled and started via ansible_______
+      service:
+        name: ntp
+        state: started
+        enabled: yes
+      become: true
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Adding "Ansible managed" line on the /etc/ntp.conf
+  lineinfile:
+    path: /etc/ntp.conf
+    line: "# Ansible managed"
+    insertafter: EOF
+  become: true
+  when: ansible_distribution == 'Ubuntu'
+

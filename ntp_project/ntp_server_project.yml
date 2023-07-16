@@ -1,0 +1,5 @@
+---
+- hosts: harman_hosts 
+  roles:
+    - /root/harman_project/ntp_project
+
